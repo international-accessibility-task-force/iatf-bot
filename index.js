@@ -1,5 +1,5 @@
 require('dotenv').config()
-
+const keepAlive = require('./server.js')
 // Require the necessary discord.js classes
 const { Client, GatewayIntentBits } = require('discord.js')
 const token = process.env.TOKEN
@@ -180,6 +180,6 @@ client.on('interactionCreate', async (interaction) => {
   }
 }) 
 */
-
+keepAlive()
 // Login to Discord with your client's token
 client.login(token)
