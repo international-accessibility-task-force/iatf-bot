@@ -9,6 +9,7 @@
     "nodemon": "^2.0.19"
   },
   "scripts": {
-    "dev": "npx nodemon index.js"
+    "dev": "npx nodemon index.js",
+    "start": "node index.js"
   }
 }
