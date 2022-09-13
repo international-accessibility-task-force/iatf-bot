@@ -10,7 +10,7 @@ server.get('/healthcheck', (req, res) => {
 })
 
 server.get('/version', (req, res) => {
-  res.send('0.0.1')
+  res.send('0.0.2')
 })
 
 function keepAlive() {
