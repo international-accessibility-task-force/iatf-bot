@@ -96,13 +96,26 @@ client.on('messageCreate', async (msg) => {
     }
     createChannel()
     return console.log('#request-project create project logic')
-  } else if (
+  } // is user
+  else if (
     msg.content.includes('create project') &&
     channel.name === 'request-project' &&
-    !msg.member.roles.cache.some((role) => role.name === 'Developer')
+    msg.member.roles.cache.some((role) => role.name === 'User')
+  ) {
+    if (!msg.content.includes(`[request-project]`)) {
+      return console.log('#request-project user created!')
+    } else {
+      await msg.delete()
+      return console.log('#request-project user, not a user!')
+    }
+  } // is not user or developer
+  else if (
+    msg.content.includes('create project') &&
+    channel.name === 'request-project' &&
+    !msg.member.roles.cache.some((role) => role.name === 'User')
   ) {
     await msg.delete()
-    return console.log('#request-project create project logic, not a developer!')
+    return console.log('#request-project create project logic, not a developer or user!')
   }
 
   // if no introduction has been written, delete the message
@@ -125,26 +138,26 @@ client.on('messageCreate', async (msg) => {
     return console.log('if no introduction has been written, delete the message')
   }
   /*   
-if (channel.name !== 'server-introductions' && !msg.author.bot && createProject !== true) {
-    console.log('createProject value', createProject)
-    console.log('content', msg.content, 'author', msg.author.username)
-    const introductionsChannel = client.channels.cache.get('1017808594055462942')
+  if (channel.name !== 'server-introductions' && !msg.author.bot && createProject !== true) {
+      console.log('createProject value', createProject)
+      console.log('content', msg.content, 'author', msg.author.username)
+      const introductionsChannel = client.channels.cache.get('1017808594055462942')
 
-    async function getAllMessages() {
-      const allMessages = await introductionsChannel.messages.fetch()
-      let verified = []
-      for (const m of allMessages.values()) {
-        verified.push(m.author.username)
+      async function getAllMessages() {
+        const allMessages = await introductionsChannel.messages.fetch()
+        let verified = []
+        for (const m of allMessages.values()) {
+          verified.push(m.author.username)
+        }
+        console.log(verified)
+        if (!verified.includes(msg.author.username)) {
+          console.log(msg.content)
+          await msg.delete()
+        }
       }
-      console.log(verified)
-      if (!verified.includes(msg.author.username)) {
-        console.log(msg.content)
-        await msg.delete()
-      }
-    }
-    await getAllMessages()
-    return console.log('if no introduction has been written, delete the message')
-} 
+      await getAllMessages()
+      return console.log('if no introduction has been written, delete the message')
+  } 
   */
 
   // only working group members can talk in its own channel
