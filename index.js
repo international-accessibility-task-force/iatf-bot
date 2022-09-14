@@ -99,11 +99,10 @@ client.on('messageCreate', async (msg) => {
     }
     createChannel()
     return console.log('#request-project create project logic')
-  } // is user
-  else if (
-    msg.content.includes('create project') &&
+  } else if (
+    !msg.content.includes('[create project]') &&
     channel.name === 'request-project' &&
-    msg.member.roles.cache.some((role) => role.name === 'User')
+    msg.member.roles.cache.some((role) => role.name === 'Developer')
   ) {
     if (!msg.content.includes(`[request-project]`)) {
       return console.log('#request-project user created!')
@@ -114,15 +113,18 @@ client.on('messageCreate', async (msg) => {
     }
   } // is not user or developer
   else if (
-    msg.content.includes('create project') &&
+    !msg.content.includes('[request project]') &&
     channel.name === 'request-project' &&
-    !msg.member.roles.cache.some((role) => role.name === 'User')
+    msg.member.roles.cache.some((role) => role.name === 'User')
   ) {
     debug_log_channel.send({ content: `[DELETED] (#request-project) username: ${msg.author.username}, content: ${msg.content}` })
     await msg.delete()
-    return console.log('#request-project create project logic, not a developer or user!')
+    return console.log('#request-project user, use the template!')
+  } // is not user or developer
+  else if (msg.member.roles.cache.some((role) => role.name === 'Community')) {
+    await msg.delete()
+    return console.log('#request-project not a user or a developer')
   }
-
   // if no introduction has been written, delete the message
   if (channel.name !== 'server-introductions' && !msg.author.bot) {
     const introductionsChannel = client.channels.cache.get('1017808594055462942')
@@ -165,7 +167,7 @@ client.on('messageCreate', async (msg) => {
       await getAllMessages()
       return console.log('if no introduction has been written, delete the message')
   } 
-  */
+*/
 
   // only working group members can talk in its own channel
   if (msg.channel.parent.name === '/IATF/private') {
