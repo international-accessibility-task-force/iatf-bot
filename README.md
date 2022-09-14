@@ -56,7 +56,7 @@ Notice that the names of the channels and the categories of [our discord server]
 
 then:
 ```sh
-cd webpage
+cd iatf-bot
 git checkout development
 git remote add upstream https://github.com/international-accessibility-task-force/iatf-bot.git
 git pull upstream development

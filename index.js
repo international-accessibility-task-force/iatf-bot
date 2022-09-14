@@ -17,6 +17,7 @@ client.once('ready', () => {
 client.on('messageCreate', async (msg) => {
   const guild = msg.guild
   const channel = msg.channel
+  const debug_log_channel = await client.channels.cache.get('1018843354705956956')
 
   // clear channel (only reserved role)
   if (msg.content === 'cls' && msg.member.roles.cache.some((role) => role.name === 'reserved')) {
@@ -35,12 +36,14 @@ client.on('messageCreate', async (msg) => {
 
   // #server-introductions template
   if (msg.channel.name === 'server-introductions' && !msg.content.includes(`[${msg.author.username}]`)) {
+    debug_log_channel.send({ content: `[DELETED] (#server-introductions) username: ${msg.author.username}, content: ${msg.content}` })
     await msg.delete()
     return console.log('#server-introductions template')
   }
 
   // #kindly-ping channel template
   if (!msg.content.includes('@') && channel.name === 'kindly-ping') {
+    debug_log_channel.send({ content: `[DELETED] (#kindly-ping) username: ${msg.author.username}, content: ${msg.content}` })
     await msg.delete()
     return console.log('#kindly-ping channel template')
   }
@@ -105,6 +108,7 @@ client.on('messageCreate', async (msg) => {
     if (!msg.content.includes(`[request-project]`)) {
       return console.log('#request-project user created!')
     } else {
+      debug_log_channel.send({ content: `[DELETED] (#request-project) username: ${msg.author.username}, content: ${msg.content}` })
       await msg.delete()
       return console.log('#request-project user, not a user!')
     }
@@ -114,6 +118,7 @@ client.on('messageCreate', async (msg) => {
     channel.name === 'request-project' &&
     !msg.member.roles.cache.some((role) => role.name === 'User')
   ) {
+    debug_log_channel.send({ content: `[DELETED] (#request-project) username: ${msg.author.username}, content: ${msg.content}` })
     await msg.delete()
     return console.log('#request-project create project logic, not a developer or user!')
   }
@@ -130,12 +135,14 @@ client.on('messageCreate', async (msg) => {
       }
       console.log(verified)
       if (!verified.includes(msg.author.username)) {
-        console.log(msg.content)
+        //console.log(msg.content)
+        debug_log_channel.send({ content: `[DELETED] (#server-introductions MISSING) username: ${msg.author.username}, content: ${msg.content}` })
         await msg.delete()
+        return console.log('if no introduction has been written, delete the message')
       }
     }
     await getAllMessages()
-    return console.log('if no introduction has been written, delete the message')
+    return console.log('channel.name !==server-introductions && !msg.author.bot')
   }
   /*   
   if (channel.name !== 'server-introductions' && !msg.author.bot && createProject !== true) {
@@ -170,6 +177,7 @@ client.on('messageCreate', async (msg) => {
       }
       console.log(lastMessage)
       if (!lastMessage.includes(msg.author.username)) {
+        debug_log_channel.send({ content: `[DELETED] (#working-groups) username: ${msg.author.username}, content: ${msg.content}` })
         await msg.delete()
       }
     }
