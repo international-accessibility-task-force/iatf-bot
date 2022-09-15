@@ -121,7 +121,7 @@ client.on('messageCreate', async (msg) => {
     await msg.delete()
     return console.log('#request-project user, use the template!')
   } // is not user or developer
-  else if (msg.member.roles.cache.some((role) => role.name === 'Community')) {
+  else if (channel.name === 'request-project' && msg.member.roles.cache.some((role) => role.name === 'Community')) {
     await msg.delete()
     return console.log('#request-project not a user or a developer')
   }
