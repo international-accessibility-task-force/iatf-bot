@@ -16,7 +16,7 @@ client.once('ready', () => {
 })
 
 client.on('messageCreate', async (msg) => {
-  const guild = client.guilds.cache.get('1014599739230130267')
+  const guild = await client.guilds.cache.get('1014599739230130267')
   const member = await guild.members.fetch(msg.author)
   const logs = await client.channels.cache.get('1018843354705956956')
   const channelMessages = await msg.channel.messages.channel.messages.fetch({ limit: 100 })
