@@ -39,7 +39,7 @@ class Bot {
     if (this.messageAuthor.bot) return
     if (!this.messageAuthorRoles.includes('verified') && this.messageChannel.name === 'server-introductions') {
       this.messageChannel.send({
-        content: `Hi ${this.messageAuthor.username}! Welcome to this warm, friendly and accessible community! We are glad you are here. For now relax, you only have to wait until the admin team reviews your introduction and accepts you as a verified member of the community, until then you can read the channels but you can not write on them. All the best, The Admin Team!`,
+        content: `Hi ${this.messageAuthor.username}! Welcome to this warm, friendly, and accessible community! We are glad you are here. For now, you only have to wait until the admin team reviews your introduction and accepts you as a verified member of the community. Until then, you can read the channels but can not write on them. Many thanks and all the best, The Admin Team!`,
       })
     }
   }
