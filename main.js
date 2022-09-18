@@ -25,7 +25,7 @@ client.on('messageCreate', async (msg) => {
 
   await bot.channelClear()
   await bot.channelClearBotOnly()
-  await bot.awaitingVerification()
+  //await bot.awaitingVerification() standby this feature
 })
 
 keepAlive()
