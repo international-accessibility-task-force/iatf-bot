@@ -16,16 +16,21 @@ client.once('ready', () => {
 })
 
 client.on('messageCreate', async (msg) => {
-  const guild = await client.guilds.cache.get('1014599739230130267')
-  const member = await guild.members.fetch(msg.author)
-  const logs = await client.channels.cache.get('1018843354705956956')
+  const message = msg
+  const messageGuild = msg.guild
+  const messageChannel = msg.channel
+  const messageAuthor = msg.author
+  const messageAuthorRoles = msg.member.roles.cache.map((role) => role.name)
+  const messageContent = msg.content
   const channelMessages = await msg.channel.messages.channel.messages.fetch({ limit: 100 })
-  const authorRoles = await member.roles.cache.map((role) => role.name)
-  const bot = new Bot(msg, msg.guild, msg.channel, msg.author, authorRoles, msg.content, channelMessages, client, logs)
+  const logsChannel = client.channels.cache.get('1018843354705956956')
+
+  const bot = new Bot(message, messageGuild, messageChannel, messageAuthor, messageAuthorRoles, messageContent, channelMessages, client, logsChannel)
 
   await bot.channelClear()
   await bot.channelClearBotOnly()
-  //await bot.awaitingVerification() standby this feature
+
+  console.log(messageAuthor.username, messageChannel.name, messageAuthorRoles, messageContent)
 })
 
 keepAlive()
