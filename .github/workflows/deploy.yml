@@ -22,6 +22,8 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - name: npm install
         run: npm install
+      - name: lint
+        run: npm run eslint
       #- name: Test Error
       #if: ${{ failure() }}
       #uses: rjstone/discord-webhook-notify@v1
@@ -29,8 +31,6 @@ jobs:
       #severity: error
       #details: Build failed
       #webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      #- name: lint
-      #run: npm run eslint
       #- name: Run tests 🧪
       # https://github.com/cypress-io/github-action
       #uses: cypress-io/github-action@v2
