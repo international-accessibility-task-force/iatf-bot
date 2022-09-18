@@ -13,7 +13,8 @@
   },
   "scripts": {
     "dev": "npx nodemon main.js",
-    "start": "node main.js"
+    "start": "node main.js",
+    "lint": "eslint ."
   },
   "main": "main.js"
 }
