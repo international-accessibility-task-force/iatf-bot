@@ -3,7 +3,7 @@ require('dotenv').config()
 const { Client, GatewayIntentBits } = require('discord.js')
 
 const keepAlive = require('./utils/server.js')
-const Bot = require('./classes/bot.js')
+const Bot = require('./classes/Bot.js')
 
 const token = process.env.TOKEN
 
