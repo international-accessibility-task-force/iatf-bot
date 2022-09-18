@@ -16,7 +16,7 @@ client.once('ready', () => {
 })
 
 client.on('messageCreate', async (msg) => {
-  const logs = await client.channels.cache.get('1021022144504799237')
+  const logs = await client.channels.cache.get('1018843354705956956')
   const channelMessages = await msg.channel.messages.channel.messages.fetch({ limit: 100 })
   const authorRoles = msg.member.roles.cache.map((role) => role.name)
   const bot = new Bot(msg, msg.guild, msg.channel, msg.author, authorRoles, msg.content, channelMessages, client, logs)
