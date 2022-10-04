@@ -1,5 +1,18 @@
 # Changelog 
 
+## [2.1.0] - 2022-10-04
+
+### Major changes
+
+- Development by @mugiwarafx in https://github.com/international-accessibility-task-force/iatf-bot/pull/15
+- update pipeline by @mugiwarafx in https://github.com/international-accessibility-task-force/iatf-bot/pull/16
+- run with ts-node by @mugiwarafx in https://github.com/international-accessibility-task-force/iatf-bot/pull/17
+- express t by @mugiwarafx in https://github.com/international-accessibility-task-force/iatf-bot/pull/18
+- v2.1.0 by @mugiwarafx in https://github.com/international-accessibility-task-force/iatf-bot/pull/19
+
+
+**Full Changelog**: https://github.com/international-accessibility-task-force/iatf-bot/compare/v2.0.1...v2.1.0
+
 ## [2.0.0] - 2022-09-13
 
 An attempt to make the code more object-oriented and shortly event-based as well. The readability of the code has increased. The lengthy of the code has decreased.
