@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/international-accessibility-task-force/iatf-bot/blob/master/lib/assets/images/logo-center-rules-black-and-white.png"
+    <img src="https://github.com/international-accessibility-task-force/iatf-bot/blob/master/assets/images/logo-center-rules-black-and-white.png"
         height="138">
 </p>
 <p align="center">

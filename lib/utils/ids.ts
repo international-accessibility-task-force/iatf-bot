@@ -3,6 +3,7 @@ import { Channels, Roles } from '../types/interfaces'
 export const CHANNELS: Channels = {
   test: '1026789810108637255',
   iatfbotlog: '1018843354705956956',
+  serverroles: '1017805863228018778',
 }
 
 export const ROLES: Roles = {

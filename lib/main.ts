@@ -75,8 +75,10 @@ client.on('messageCreate', async (msg: Message) => {
     msg.content === 'create_get_roles_button' &&
     msg.member?.permissions.has('ADMINISTRATOR' as PermissionResolvable)
   ) {
-    const testChannel = client.channels.cache.get(CHANNELS.test) as TextChannel
-    if (testChannel === undefined) return
+    const channel = client.channels.cache.get(
+      CHANNELS.serverroles
+    ) as TextChannel
+    if (channel === undefined) return
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       buttonFactory('Community'),
@@ -84,7 +86,7 @@ client.on('messageCreate', async (msg: Message) => {
       buttonFactory('Developer')
     )
 
-    await testChannel.send({
+    await channel.send({
       content: `${copy.get_roles_message}`,
       components: [row],
     })

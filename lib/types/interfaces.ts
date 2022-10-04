@@ -14,6 +14,7 @@ export interface BotClass {
 export interface Channels {
   test: string
   iatfbotlog: string
+  serverroles: string
 }
 
 export interface Roles {
