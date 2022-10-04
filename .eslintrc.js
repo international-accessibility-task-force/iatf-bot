@@ -6,7 +6,7 @@ module.exports = {
     jest: true,
   },
   extends: 'eslint:recommended',
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   rules: {
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
