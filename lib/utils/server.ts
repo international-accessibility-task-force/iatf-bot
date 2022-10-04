@@ -13,10 +13,8 @@ server.get('/version', (req, res) => {
   res.send('0.0.2')
 })
 
-function keepAlive() {
+export function keepAlive() {
   server.listen(process.env.PORT || 3000, () => {
     console.log('Server is Ready!!' + Date.now())
   })
 }
-
-module.exports = keepAlive
