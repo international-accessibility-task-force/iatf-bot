@@ -1,13 +1,25 @@
 require('dotenv').config()
 
-const { Client, GatewayIntentBits, ActionRowBuilder } = require('discord.js')
+import {
+  Client,
+  GatewayIntentBits,
+  ActionRowBuilder,
+  Interaction,
+  Message,
+  TextChannel,
+  PermissionResolvable,
+  ButtonBuilder,
+  GuildMemberRoleManager,
+  Role,
+} from 'discord.js'
 
-const { CHANNELS, ROLES } = require('./utils/ids')
-const { keepAlive } = require('./utils/server.ts')
-const { buttonFactory } = require('./utils/factory.ts')
+import { CHANNELS, ROLES } from './utils/ids'
+import { keepAlive } from './utils/server'
+import { buttonFactory } from './utils/factory'
 
-const Bot = require('./classes/Bot.ts')
-const copy = require('./data/copy.json')
+import Bot from './classes/Bot'
+import copy from './data/copy.json'
+import { Roles } from './types/interfaces'
 
 const token = process.env.TOKEN
 
@@ -24,28 +36,27 @@ client.once('ready', () => {
   console.log('IATF-BOT, up and running! 🚀')
 })
 
-client.on('messageCreate', async (msg) => {
+client.on('messageCreate', async (msg: Message) => {
   const message = msg
-  const messageGuild = msg.guild
   const messageChannel = msg.channel
   const messageAuthor = msg.author
-  const messageAuthorRoles = msg.member.roles.cache.map((role) => role.name)
+  const messageAuthorRoles = msg.member?.roles.cache.map(
+    (role: Role) => role.name
+  )
   const messageContent = msg.content
   const channelMessages = await msg.channel.messages.channel.messages.fetch({
     limit: 100,
   })
-  const logsChannel = client.channels.cache.get('1018843354705956956')
+  const logsChannel = client.channels.cache.get(CHANNELS?.iatfbotlog)
 
   const bot = new Bot(
     message,
-    messageGuild,
-    messageChannel,
+    messageChannel as TextChannel,
     messageAuthor,
     messageAuthorRoles,
     messageContent,
     channelMessages,
-    client,
-    logsChannel
+    logsChannel as TextChannel
   )
 
   await bot.channelClear()
@@ -53,20 +64,21 @@ client.on('messageCreate', async (msg) => {
 
   console.log(
     messageAuthor.username,
-    messageChannel.name,
+    messageChannel.id,
     messageAuthorRoles,
     messageContent
   )
 })
 
-client.on('messageCreate', async (msg) => {
+client.on('messageCreate', async (msg: Message) => {
   if (
     msg.content === 'create_get_roles_button' &&
-    msg.member.permissions.has('ADMINISTRATOR')
+    msg.member?.permissions.has('ADMINISTRATOR' as PermissionResolvable)
   ) {
-    const testChannel = client.channels.cache.get(CHANNELS.test)
+    const testChannel = client.channels.cache.get(CHANNELS.test) as TextChannel
+    if (testChannel === undefined) return
 
-    const row = new ActionRowBuilder().addComponents(
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       buttonFactory('Community'),
       buttonFactory('User'),
       buttonFactory('Developer')
@@ -79,15 +91,19 @@ client.on('messageCreate', async (msg) => {
   }
 })
 
-client.on('interactionCreate', async (interaction) => {
+client.on('interactionCreate', async (interaction: Interaction) => {
   if (!interaction.isButton()) return
+  if (interaction === null) return
+  const key = interaction.customId as keyof Roles
+  const role = interaction.guild?.roles.cache.get(ROLES[key])
+  const memberRoles = interaction.member?.roles as GuildMemberRoleManager
 
-  const role = interaction.guild.roles.cache.get(ROLES[interaction.customId])
-  const hasRole = interaction.member.roles.cache.has(role.id)
+  if (role === undefined) return
+  const memberHasRole = memberRoles.cache.has(role.id)
 
-  if (hasRole) {
+  if (memberHasRole) {
     try {
-      await interaction.member.roles.remove(role)
+      await memberRoles.remove(role)
       await interaction.reply({
         content: `Removed role ${role}`,
         ephemeral: true,
@@ -101,7 +117,7 @@ client.on('interactionCreate', async (interaction) => {
     }
   } else {
     try {
-      await interaction.member.roles.add(role)
+      await memberRoles.add(role)
       await interaction.reply({
         content: `Added ${role}`,
         ephemeral: true,

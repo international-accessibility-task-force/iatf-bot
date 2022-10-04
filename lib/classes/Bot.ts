@@ -1,27 +1,34 @@
-export class Bot {
+import { Message, TextChannel } from 'discord.js'
+import { BotClass } from '../types/interfaces'
+
+class Bot implements BotClass {
+  message: Message
+  messageChannel: TextChannel
+  messageAuthor: any
+  messageAuthorRoles: any
+  messageContent: any
+  channelMessages: any
+  logsChannel: TextChannel
+
   constructor(
-    message,
-    messageGuild,
-    messageChannel,
-    messageAuthor,
-    messageAuthorRoles,
-    messageContent,
-    channelMessages,
-    client,
-    logsChannel
+    message: Message,
+    messageChannel: TextChannel,
+    messageAuthor: any,
+    messageAuthorRoles: any,
+    messageContent: any,
+    channelMessages: any,
+    logsChannel: TextChannel
   ) {
     this.message = message
-    this.messageGuild = messageGuild
     this.messageChannel = messageChannel
     this.messageAuthor = messageAuthor
     this.messageAuthorRoles = messageAuthorRoles
     this.messageContent = messageContent
     this.channelMessages = channelMessages
-    this.client = client
     this.logsChannel = logsChannel
   }
 
-  log = async (method) => {
+  log = async (method: string) => {
     this.logsChannel.send({
       content: `[${method}] (${this.messageChannel}) username: ${this.messageAuthor.username}, content: ${this.messageContent}`,
     })
@@ -43,23 +50,15 @@ export class Bot {
       this.messageAuthorRoles.includes('reserved')
     ) {
       await this.messageChannel.bulkDelete(
-        this.channelMessages.filter((m) => m.author.bot),
+        this.channelMessages.filter(
+          (m: { author: { bot: any } }) => m.author.bot
+        ),
         true
       )
       await this.log('Bot::channelClearBotOnly()')
       await this.message.delete()
     }
   }
-
-  awaitingVerification = async () => {
-    if (this.messageAuthor.bot) return
-    if (
-      !this.messageAuthorRoles.includes('verified') &&
-      this.messageChannel.name === 'server-introductions'
-    ) {
-      this.messageChannel.send({
-        content: `Hi ${this.messageAuthor.username}! Welcome to this warm, friendly, and accessible community! We are glad you are here. For now, you only have to wait until the admin team reviews your introduction and accepts you as a verified member of the community. Until then, you can read the channels but can not write on them. Many thanks and all the best, The Admin Team!`,
-      })
-    }
-  }
 }
+
+export default Bot

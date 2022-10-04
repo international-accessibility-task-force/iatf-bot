@@ -1,15 +1,16 @@
-const express = require('express')
-const server = express()
+import express, { Express, Request, Response } from 'express'
 
-server.all('/', (req, res) => {
+const server: Express = express()
+
+server.all('/', (req: Request, res: Response) => {
   res.send('serving keepalive with express')
 })
 
-server.get('/healthcheck', (req, res) => {
+server.get('/healthcheck', (req: Request, res: Response) => {
   res.send('ok')
 })
 
-server.get('/version', (req, res) => {
+server.get('/version', (req: Request, res: Response) => {
   res.send('0.0.2')
 })
 
