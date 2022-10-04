@@ -15,13 +15,9 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: borales/actions-yarn@v3.0.0
         with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: ./package-lock.json
-      - name: npm install
-        run: npm install
+          cmd: install # will run `yarn install` command
       - name: lint
         run: npm run lint
       #- name: Test Error
