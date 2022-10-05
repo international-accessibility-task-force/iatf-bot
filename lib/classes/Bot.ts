@@ -7,7 +7,7 @@ import {
   PermissionResolvable,
 } from 'discord.js'
 
-import { buttonFactory } from 'lib/utils/factory'
+import { buttonFactory } from '../utils/factory'
 import { BotClass } from '../types/interfaces'
 
 import copy from '../data/copy.json'
