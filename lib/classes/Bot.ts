@@ -62,7 +62,7 @@ class Bot implements BotClass {
       const messages = await this.fetchChannelMessages()
       await channel.bulkDelete(messages, true)
       await this.logger('Bot::channelClear()')
-      await this.message.delete()
+      //await this.message.delete() You already deleted all the mssgs!
     }
   }
 
