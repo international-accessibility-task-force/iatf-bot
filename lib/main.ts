@@ -3,22 +3,16 @@ require('dotenv').config()
 import {
   Client,
   GatewayIntentBits,
-  ActionRowBuilder,
   Interaction,
   Message,
   TextChannel,
-  PermissionResolvable,
-  ButtonBuilder,
   GuildMemberRoleManager,
-  Role,
 } from 'discord.js'
 
 import { CHANNELS, ROLES } from './utils/ids'
 import { keepAlive } from './utils/server'
-import { buttonFactory } from './utils/factory'
 
 import Bot from './classes/Bot'
-import copy from './data/copy.json'
 import { Roles } from './types/interfaces'
 
 const token = process.env.TOKEN
@@ -38,59 +32,15 @@ client.once('ready', () => {
 
 client.on('messageCreate', async (msg: Message) => {
   const message = msg
-  const messageChannel = msg.channel
-  const messageAuthor = msg.author
-  const messageAuthorRoles = msg.member?.roles.cache.map(
-    (role: Role) => role.name
-  )
-  const messageContent = msg.content
-  const channelMessages = await msg.channel.messages.channel.messages.fetch({
-    limit: 100,
-  })
-  const logsChannel = client.channels.cache.get(CHANNELS?.iatfbotlog)
+  const serverRolesChannel = client.channels.cache.get(CHANNELS?.serverroles)
+  const logChannel = client.channels.cache.get(CHANNELS?.iatfbotlog)
 
-  const bot = new Bot(
-    message,
-    messageChannel as TextChannel,
-    messageAuthor,
-    messageAuthorRoles,
-    messageContent,
-    channelMessages,
-    logsChannel as TextChannel
-  )
-
+  const bot = new Bot(message, logChannel as TextChannel)
   await bot.channelClear()
   await bot.channelClearBotOnly()
+  await bot.createRoleButtons(serverRolesChannel)
 
-  console.log(
-    messageAuthor.username,
-    messageChannel.id,
-    messageAuthorRoles,
-    messageContent
-  )
-})
-
-client.on('messageCreate', async (msg: Message) => {
-  if (
-    msg.content === 'create_get_roles_button' &&
-    msg.member?.permissions.has('ADMINISTRATOR' as PermissionResolvable)
-  ) {
-    const channel = client.channels.cache.get(
-      CHANNELS.serverroles
-    ) as TextChannel
-    if (channel === undefined) return
-
-    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-      buttonFactory('Community'),
-      buttonFactory('User'),
-      buttonFactory('Developer')
-    )
-
-    await channel.send({
-      content: `${copy.get_roles_message}`,
-      components: [row],
-    })
-  }
+  console.log(logChannel?.id, message.content)
 })
 
 client.on('interactionCreate', async (interaction: Interaction) => {
